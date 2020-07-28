@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 
-class Square extends React.Component<{}, { value: any }> {
+export default class Square extends React.Component <any, { xory: any }> {
+    
     constructor(props: any) {
         super(props);
         this.state = {
-            value: null,
+            xory: null,
         }
     }
 
@@ -12,13 +13,12 @@ class Square extends React.Component<{}, { value: any }> {
         return (
           <button
             className="square"
-            onClick={() => this.setState({value: 'X'})}
+            onClick={() => this.setState({xory: 'X'})}
           >
-            {this.state.value}
+            {this.state.xory}
           </button>
         )
     }
     
 }
 
-export default Square;

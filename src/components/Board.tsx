@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
 import Square from './Square';
 
-class Board extends React.Component{
-    renderSquare(i: number) {
-        return(
-            <Square />
-        );
-    }
+class Board extends React.Component <any, { squares: any }> {
 
+    constructor(props: any) {
+        super(props);
+        this.state = {
+          squares: Array(9).fill(null),
+        };
+      }
+    
+      renderSquare(i: any) {
+        return <Square 
+            value={this.state.squares[i]}
+            
+            />;
+      }
+      
     render(){
         const status = 'Next player: X';
         return(
