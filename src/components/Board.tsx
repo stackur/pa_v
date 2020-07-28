@@ -10,11 +10,20 @@ class Board extends React.Component <any, { squares: any }> {
         };
       }
     
-      renderSquare(i: any) {
-        return <Square 
-            value={this.state.squares[i]}
-            
-            />;
+
+    handleClick(i: any) {
+        const squares = this.state.squares.slice();
+        squares[i] = 'X';
+        this.setState({squares: squares});
+    }
+
+    renderSquare(i: any) {
+        return (
+            <Square
+              value={this.state.squares[i]}
+              onClick={() => this.handleClick(i)}
+            />
+        );
       }
       
     render(){
