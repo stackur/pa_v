@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Square from './Square';
+import {buildSquare} from './Square';
 
 class Board extends React.Component{
     renderSquare(i: number) {
         return(
-            <Square />
+            buildSquare(i)
         );
     }
 
