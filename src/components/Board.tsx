@@ -1,6 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
 import Square from './Square';
-import { Interface } from 'readline';
 
 const LINES = [ // Stepsize etc..
     [0, 1, 2],
@@ -13,12 +12,8 @@ const LINES = [ // Stepsize etc..
     [2, 4, 6],
 ];
 
-interface BoardProps{
-    xBegins: boolean;
-}
 
-
-const Board = (xBegins: boolean)=>{
+const Board = (xBegins:boolean)=>{
 
     const [squares, setSquares] = useState(Array(9).fill(null)) // hooks || destructuring
     const [xIsNext, setXIsNext] = useState(xBegins) // hooks
