@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
 import Square from './Square';
 
-class Board extends React.Component <any, { squares: any }> {
+class Board extends React.Component <any, any> {
     
     constructor(props: any) {
         super(props);
         this.state = {
             squares: Array(9).fill(null),
+            xIsNext: true,
         };
     }
 
     handleClick(i: any){
         const squares = this.state.squares.slice();
-        squares[i] = 'X';
-        this.setState({squares: squares});
+        squares[i] = this.state.xIsNext ? 'X' : 'O';
+        this.setState({
+            squares: squares,
+            xIsNext: !this.state.xIsNext,
+        });  
     }
 
     renderSquare(i: any) {
@@ -23,8 +27,9 @@ class Board extends React.Component <any, { squares: any }> {
         />;
       }
     
-      render() {
-        const status = 'Next player: X';
+    render() {
+        const nextPlayer =  this.state.xIsNext ? 'X' : 'O';
+        const status = 'Next player: ' + nextPlayer;
     
         return (
           <div>
@@ -50,3 +55,4 @@ class Board extends React.Component <any, { squares: any }> {
     }
 
 export default Board;
+
