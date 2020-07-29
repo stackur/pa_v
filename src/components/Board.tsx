@@ -1,91 +1,88 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import Square from './Square';
 
-class Board extends React.Component <any, any> {
-    
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            squares: Array(9).fill(null),
-            xIsNext: true,
-        };
-    }
+const LINES = [ // Stepsize etc..
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+];
 
-    handleClick(i: any){
-        const squares = this.state.squares.slice();
-        if(this.calculateWinner(squares) || squares[i]){
-            return;
+interface BoardProps{
+    xBegins: boolean;
+}
+
+
+const Board = ()=>{
+
+    const [squares, setSquares] = useState(Array(9).fill(null)) // hooks || destructuring
+    const [xIsNext, setXIsNext] = useState(false) // hooks
+    const [status, setStatus] = useState('') // hooks
+
+    useEffect(()=>{
+        const winner = calculateWinner(squares)       
+        if (winner) {
+            setStatus(`Winner: ${winner}`) //template string (statt plus)
         }
-        squares[i] = this.state.xIsNext ? 'X' : 'O';
-        this.setState({
-            squares: squares,
-            xIsNext: !this.state.xIsNext,
-        });  
-    }
+        else{
+            setStatus(`Next Player: ${xIsNext ? 'X' : 'O'}`); //ternary statement || infinite renderingloop
+        }
+    },
+    [squares, xIsNext, status] // alle Variablen, die nicht definiert werden, aber genutzt
+    )
 
-    renderSquare(i: any) {
-        return <Square 
-            value={this.state.squares[i]}
-            onClick={() => this.handleClick(i)}
-        />;
-    }
-    
-
-    calculateWinner(squares: any){
-        const lines = [
-            [0, 1, 2],
-            [3, 4, 5],
-            [6, 7, 8],
-            [0, 3, 6],
-            [1, 4, 7],
-            [2, 5, 8],
-            [0, 4, 8],
-            [2, 4, 6],
-          ];
-        for (let i = 0; i < lines.length; i++) {
-            const [a, b, c] = lines[i];
+    function calculateWinner(squares: any): string|null{
+        for (let i = 0; i < LINES.length; i++) {
+            const [a, b, c] = LINES[i];
             if (squares[a] === squares[b] && squares[a] === squares[c]) {
                 return squares[a];
             }
         }
         return null;
-        
     }
 
-    
-    render() {
-        const winner = this.calculateWinner(this.state.squares);
-        const nextPlayer =  this.state.xIsNext ? 'X' : 'O';
-        let status;
-        if (winner) {
-            status = 'Winner: ' + winner;
+    function handleClick(i: any){
+        const squaresCopy = squares.slice();
+        if(calculateWinner(squaresCopy) || squaresCopy[i]){
+            return;
         }
-        else{
-            status = 'Next Player: ' + nextPlayer;
-        }
-    
-        return (
-          <div>
-            <div className="status">{status}</div>
-            <div className="board-row">
-              {this.renderSquare(0)}
-              {this.renderSquare(1)}
-              {this.renderSquare(2)}
-            </div>
-            <div className="board-row">
-              {this.renderSquare(3)}
-              {this.renderSquare(4)}
-              {this.renderSquare(5)}
-            </div>
-            <div className="board-row">
-              {this.renderSquare(6)}
-              {this.renderSquare(7)}
-              {this.renderSquare(8)}
-            </div>
-          </div>
-        );
-      }
+        squaresCopy[i] = xIsNext ? 'X' : 'O';
+        setSquares(squaresCopy)
+        setXIsNext(!xIsNext)
     }
+
+    function renderSquare(i: number){
+        return <Square 
+            value={squares[i]}
+            onClick={() => handleClick(i)}
+        />;
+    }
+    
+    
+    return (
+        <div>
+          <div className="status">{status}</div>
+          <div className="board-row">
+            {renderSquare(0)}
+            {renderSquare(1)}
+            {renderSquare(2)}
+          </div>
+          <div className="board-row">
+            {renderSquare(3)}
+            {renderSquare(4)}
+            {renderSquare(5)}
+          </div>
+          <div className="board-row">
+            {renderSquare(6)}
+            {renderSquare(7)}
+            {renderSquare(8)}
+          </div>
+        </div>
+      );
+}
 
 export default Board;
-
