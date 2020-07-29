@@ -1,5 +1,4 @@
 import React, { Component, useState, useEffect } from 'react';
-import Square from './Square';
 
 const LINES = [ // Stepsize etc..
     [0, 1, 2],
@@ -52,13 +51,13 @@ const Board = (xBegins:boolean)=>{
     }
 
     const renderSquare = (i: number) => {
-        return <Square 
-            value={squares[i]}
-            onClick={() => handleClick(i)}
-        />;
+        return(
+            <button className="square" onClick={() => handleClick(i)}>
+                {squares[i]}
+            </button>
+        )
     }
-    
-    
+
     return (
         <div>
           <div className="status">{status}</div>
