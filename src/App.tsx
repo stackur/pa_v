@@ -13,7 +13,7 @@ function App() {
 
         <div className="game">
           <div className="game-board"></div>
-          <Board  />
+          <Board true/>
         </div>
         <div className="game-info">
           <div>{/*status*/}</div>
