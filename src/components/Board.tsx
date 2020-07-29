@@ -31,7 +31,7 @@ const Board = (xBegins:boolean)=>{
     [squares, xIsNext, status] // alle Variablen, die nicht definiert werden, aber genutzt
     )
 
-    function calculateWinner(squares: any): string|null{
+    const calculateWinner = (squares: any): string|null => {
         for (let i = 0; i < LINES.length; i++) {
             const [a, b, c] = LINES[i];
             if (squares[a] === squares[b] && squares[a] === squares[c]) {
