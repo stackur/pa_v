@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
-//import Square from './Square';
+import Square from './Square';
 
 const LINES = [ // Stepsize etc..
     [0, 1, 2],
@@ -31,7 +31,7 @@ const Board = (xBegins:boolean)=>{
     [squares, xIsNext, status] // alle Variablen, die nicht definiert werden, aber genutzt
     )
 
-    const calculateWinner = (squares: any): string|null =>{
+    function calculateWinner(squares: any): string|null{
         for (let i = 0; i < LINES.length; i++) {
             const [a, b, c] = LINES[i];
             if (squares[a] === squares[b] && squares[a] === squares[c]) {
@@ -51,21 +51,13 @@ const Board = (xBegins:boolean)=>{
         setXIsNext(!xIsNext)
     }
 
-    const renderSquare = (i: number)=>{
-
-        
-        Square(squares, i)
-        
-        
+    const renderSquare = (i: number) => {
+        return <Square 
+            value={squares[i]}
+            onClick={() => handleClick(i)}
+        />;
     }
     
-    const Square = (squares: any, i: any) => {
-        return (
-          <button className="square" onClick={() => i} >
-            {squares[i]}
-          </button>
-        );
-    }
     
     return (
         <div>
