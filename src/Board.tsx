@@ -16,13 +16,13 @@ const LINES = [ // Stepsize etc..
 const Board = (xBegins:boolean)=>{
 
     const [squares, setSquares] = useState(Array(9).fill(null)) // hooks || destructuring
-    const [xIsNext, setXIsNext] = useState(xBegins) // hooks
-    const [status, setStatus] = useState('') // hooks
+    const [xIsNext, setXIsNext] = useState(xBegins)
+    const [status, setStatus] = useState('')
     const [history, setHistory] = useState(new Array())
     const [step, setStep] = useState(0)
 
 
-    useEffect(()=>{
+    useEffect(()=>{  
         const winner = calculateWinner(squares)       
         if (winner) {
             setStatus(`Winner: ${winner}`) //template string (statt plus)
@@ -54,7 +54,6 @@ const Board = (xBegins:boolean)=>{
         setSquares(squaresCopy)
         setXIsNext(!xIsNext)
         setStep(history.length)
-        console.log(history)
     }
 
     const renderSquare = (i: number) => {
@@ -66,6 +65,9 @@ const Board = (xBegins:boolean)=>{
     }
 
     const moves = history.map((step, move) => {
+        console.log(step)
+        console.log(move)
+
         const desc = move ?
           'Go to move #' + move :
           'Go to game start';
