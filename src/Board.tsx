@@ -1,5 +1,6 @@
 import React, { Component, useState, useEffect } from 'react';
 import { Http2ServerRequest } from 'http2';
+import { type } from 'os';
 
 const LINES = [ // Stepsize etc..
     [0, 1, 2],
@@ -65,12 +66,7 @@ const Board = (xBegins:boolean)=>{
     }
 
     const moves = history.map((step, move) => {
-        console.log(step)
-        console.log(move)
-
-        const desc = move ?
-          'Go to move #' + move :
-          'Go to game start';
+        const desc = move ? 'Go to move #' + move :'Go to game start';
         return (
           <li key={move}>
             <button onClick={() => jumpTo(move)}>{desc}</button>
@@ -82,9 +78,11 @@ const Board = (xBegins:boolean)=>{
         setStep(step)
         setSquares(history[step])
         setHistory(history.slice(0,step))
-        setXIsNext(xBegins && step%2 === 0)
+        setXIsNext(xBegins && step%2 === 0 || !xBegins && !(step%2 === 0))
     }
-
+    function typeOf(obj: any) {
+      return {}.toString.call(obj).split(' ')[1].slice(0, -1).toLowerCase();
+    }
     return (
         <div>
           <div className="status">{status}</div>
