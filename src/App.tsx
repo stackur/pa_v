@@ -1,26 +1,24 @@
-import React from 'react';
+import React, {useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Board from './Board';
 
-function App() {
+const App = () => {
   return (
     <div className="App">
-      <header>
-      </header>
-      <body className="App-body">
+      <div className="App-body">
         <img src={logo} className="App-logo" alt="logo" />
 
         <div className="game">
           <div className="game-board"></div>
-          {Board(true)}
+          {Board(false)}
         </div>
         <div className="game-info">
           <div>{/*status*/}</div>
-          <ol>{/*TODO*/}</ol>
+          <ol>{}</ol>
         </div>
 
-      </body>
+      </div>
     </div>
   );
 }

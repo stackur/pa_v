@@ -1,4 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
+import { Http2ServerRequest } from 'http2';
 
 const LINES = [ // Stepsize etc..
     [0, 1, 2],
@@ -17,6 +18,9 @@ const Board = (xBegins:boolean)=>{
     const [squares, setSquares] = useState(Array(9).fill(null)) // hooks || destructuring
     const [xIsNext, setXIsNext] = useState(xBegins) // hooks
     const [status, setStatus] = useState('') // hooks
+    const [history, setHistory] = useState(new Array())
+    const [step, setStep] = useState(0)
+
 
     useEffect(()=>{
         const winner = calculateWinner(squares)       
@@ -41,6 +45,7 @@ const Board = (xBegins:boolean)=>{
     }
 
     const handleClick = (i: any)=>{
+        history.push(squares)
         const squaresCopy = squares.slice();
         if(calculateWinner(squaresCopy) || squaresCopy[i]){
             return;
@@ -48,6 +53,8 @@ const Board = (xBegins:boolean)=>{
         squaresCopy[i] = xIsNext ? 'X' : 'O';
         setSquares(squaresCopy)
         setXIsNext(!xIsNext)
+        setStep(history.length)
+        console.log(history)
     }
 
     const renderSquare = (i: number) => {
@@ -58,9 +65,28 @@ const Board = (xBegins:boolean)=>{
         )
     }
 
+    const moves = history.map((step, move) => {
+        const desc = move ?
+          'Go to move #' + move :
+          'Go to game start';
+        return (
+          <li key={move}>
+            <button onClick={() => jumpTo(move)}>{desc}</button>
+          </li>
+        );
+    })
+
+    const jumpTo = (step: number) => {
+        setStep(step)
+        setSquares(history[step])
+        setHistory(history.slice(0,step))
+        setXIsNext(xBegins && step%2 === 0)
+    }
+
     return (
         <div>
           <div className="status">{status}</div>
+          <ol>{moves}</ol>
           <div className="board-row">
             {renderSquare(0)}
             {renderSquare(1)}
