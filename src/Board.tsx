@@ -65,6 +65,13 @@ const Board = (xBegins:boolean)=>{
         )
     }
 
+    const jumpTo = (step: number) => {
+      setStep(step)
+      setSquares(history[step])
+      setHistory(history.slice(0,step))
+      setXIsNext(xBegins && step%2 === 0 || !xBegins && !(step%2 === 0))
+  }
+
     const moves = history.map((step, move) => {
         const desc = move ? 'Go to move #' + move :'Go to game start';
         return (
@@ -74,15 +81,6 @@ const Board = (xBegins:boolean)=>{
         );
     })
 
-    const jumpTo = (step: number) => {
-        setStep(step)
-        setSquares(history[step])
-        setHistory(history.slice(0,step))
-        setXIsNext(xBegins && step%2 === 0 || !xBegins && !(step%2 === 0))
-    }
-    function typeOf(obj: any) {
-      return {}.toString.call(obj).split(' ')[1].slice(0, -1).toLowerCase();
-    }
     return (
         <div>
           <div className="status">{status}</div>
